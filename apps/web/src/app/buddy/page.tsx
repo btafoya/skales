@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * /buddy — Skales Desktop Buddy (v5.0.0)
+ * /buddy — Skales Desktop Buddy (v5.5.0)
  *
  * Renders inside a frameless, transparent Electron BrowserWindow (300×400).
  * The AppShell is bypassed for this route (see app-shell.tsx).
@@ -68,6 +68,14 @@ export default function BuddyPage() {
     const [opA, setOpA] = useState(1);                // CSS opacity of slot A
     const [opB, setOpB] = useState(0);                // CSS opacity of slot B
 
+    // ── Generation counter — cancels stale canplay listeners ──────────────────
+    // Each call to play() increments this counter and captures its value.
+    // Every async callback (canplay, doSwap, onError) checks that its captured
+    // generation still matches before executing — stale handlers self-cancel.
+    // This eliminates the double-swap flicker when play() is called rapidly
+    // (e.g. the action timer fires before the previous canplay has resolved).
+    const playGen = useRef(0);
+
     // ── FSM ───────────────────────────────────────────────────────────────────
     const fsm         = useRef<FSM>('intro');
     const actionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -101,6 +109,10 @@ export default function BuddyPage() {
     // clip appears instantly with no visible gap.
 
     const play = useCallback((url: string, shouldLoop: boolean, retries = 3): void => {
+        // Increment generation — any callbacks from the previous call will see
+        // a stale gen value and self-cancel, preventing double-swap flicker.
+        const gen = ++playGen.current;
+
         const isAActive = activeSlot.current === 'a';
         const nextVid   = isAActive ? vidB.current : vidA.current;
         if (!nextVid) return;
@@ -116,6 +128,11 @@ export default function BuddyPage() {
             nextVid.removeEventListener('canplay', onCanPlay);
             nextVid.removeEventListener('error', onError);
 
+            // Stale-listener guard: if play() was called again since this
+            // listener was registered, our generation no longer matches.
+            // Bail out — the newer call will handle the swap correctly.
+            if (gen !== playGen.current) return;
+
             // Swap opacity only AFTER the first frame is truly composited on the GPU.
             // This is the critical fix for the 100-200ms black-frame flicker:
             //   • requestVideoFrameCallback (rVFC) — Chromium/Electron 86+ — fires
@@ -124,12 +141,16 @@ export default function BuddyPage() {
             //   • Fallback: double-rAF (guarantees two paint cycles, which is usually
             //     enough, but rVFC is strictly better).
             const doSwap = () => {
+                // Second stale-listener guard: rVFC/rAF may have been deferred long
+                // enough for another play() call to have already swapped the slots.
+                if (gen !== playGen.current) return;
                 activeSlot.current = isAActive ? 'b' : 'a';
                 if (isAActive) { setOpA(0); setOpB(1); }
                 else            { setOpA(1); setOpB(0); }
             };
 
             nextVid.play().catch(() => {/* muted autoplay always works */}).finally(() => {
+                if (gen !== playGen.current) return;
                 if (typeof (nextVid as any).requestVideoFrameCallback === 'function') {
                     // rVFC: fires after the first painted frame — zero blank-frame risk
                     (nextVid as any).requestVideoFrameCallback(doSwap);
@@ -143,6 +164,7 @@ export default function BuddyPage() {
         const onError = () => {
             nextVid.removeEventListener('canplay', onCanPlay);
             nextVid.removeEventListener('error', onError);
+            if (gen !== playGen.current) return;
             if (retries > 0) {
                 setTimeout(() => play(url, shouldLoop, retries - 1), 1500);
             }

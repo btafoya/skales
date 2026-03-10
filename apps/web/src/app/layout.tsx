@@ -1,5 +1,5 @@
 // ‌‍‌‌‍‌‍‍‌‌‍‍‌‍‌‍‍‍‌‌‍‍‍‌‌‍‌‍‍‌‌‍‌‍‍‌‍‌‌‍‍‌‌‌‍‍‌‌‍‌‌‍‌‍‌‍‌‌‍‌
-// Skales v5.0.0 — BSL 1.1 — Mario Simic
+// Skales v5.5.0 — BSL 1.1 — Mario Simic
 // ‌‍‌‌‍‌‍‍‌‌‍‍‌‍‌‍‍‍‌‌‍‍‍‌‌‍‌‍‍‌‌‍‌‍‍‌‍‌‌‍‍‌‌‌‍‍‌‌‍‌‌‍‌‍‌‍‌‌‍‌
 import './globals.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';

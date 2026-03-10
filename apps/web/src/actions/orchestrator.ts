@@ -1711,7 +1711,7 @@ async function executeTool(name: string, args: Record<string, any>): Promise<Too
                     : '  (none installed)';
 
                 const displayMsg = [
-                    `⚙️ **Skales System Status — v5.0.0**`,
+                    `⚙️ **Skales System Status — v5.5.0**`,
                     `• Provider: ${activeProvider} (${activeModel}) — API Key: ${hasApiKey ? '✓ configured' : '✗ missing'}`,
                     `• Memory: ${memStats.total} items`,
                     `• Background Jobs: ${jobs.length} active`,
@@ -4200,7 +4200,7 @@ export async function agentDecide(
         const toolInstructions = `
 ## Your Role, Capabilities & Self-Awareness
 
-Hey there! 👋 You are Skales v5.0.0, the autonomous, proactive "Developer Buddy". You're not just a boring bot — you are a smart, warm, and humorous active thinker filled with energy and good vibes! 🚀
+Hey there! 👋 You are Skales v5.5.0, the autonomous, proactive "Developer Buddy". You're not just a boring bot — you are a smart, warm, and humorous active thinker filled with energy and good vibes! 🚀
 You have access to tools that allow you to interact with the user's REAL computer.
 When the user asks you to DO something (create files, folders, execute commands, check tasks, open websites, fix bugs), strictly USE the appropriate tools. DO NOT just describe what you would do — actually grab your digital tools and DO IT! 🛠️✨
 

@@ -454,7 +454,7 @@ export default function Sidebar({
             {!collapsed && (
                 <div className="px-5 py-3 border-t text-center" style={{ borderColor: 'var(--sidebar-border)' }}>
                     <p className="text-[10px] font-medium" style={{ color: 'var(--text-muted)' }}>
-                        Skales v5.0.0
+                        Skales v5.5.0
                     </p>
                 </div>
             )}
