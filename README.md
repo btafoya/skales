@@ -276,4 +276,4 @@ See [COMMERCIAL-LICENSE.md](./COMMERCIAL-LICENSE.md) for details.
 
 *Not just an agent. Your desktop companion.* 🦎
 
-</div>
+</div> 
