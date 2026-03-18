@@ -186,4 +186,4 @@ temp/
 .cache/
 *.backup
 *.bak
- 
+ skills-lock.json
