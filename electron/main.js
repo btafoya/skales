@@ -318,11 +318,13 @@ function createWindow() {
     minWidth: 800,
     minHeight: 600,
     title: 'Skales',
-    icon: path.join(
-      __dirname,
-      'icons',
-      process.platform === 'darwin' ? 'icon.icns' : 'icon.ico'
-    ),
+    icon: (() => {
+      const iconDir = path.join(__dirname, 'icons');
+      if (process.platform === 'darwin') return path.join(iconDir, 'icon.icns');
+      if (process.platform === 'win32') return path.join(iconDir, 'icon.ico');
+      // Linux: prefer PNG, fallback to ico (electron-builder extracts from ico)
+      return path.join(iconDir, 'icon.png') || path.join(iconDir, 'icon.ico');
+    })(),
     show: false,
     backgroundColor: '#0a0014',
     webPreferences: {

@@ -140,3 +140,27 @@ dmg:
       y: 220
       type: link
       path: /Applications
+
+# ── Linux ───────────────────────────────────────────────────────────────────────
+linux:
+  target:
+    - target: AppImage
+      arch: [x64]
+  icon: electron/icons
+  category: Utility
+  desktop:
+    MimeType: x-scheme-handler/skales
+    StartupNotify: true
+    Categories: Network;InstantMessaging;AI;
+  executableName: skales
+  # Include node_modules for Linux (like macOS)
+  extraResources:
+    - from: apps/web/node_modules
+      to: apps/web/node_modules
+      filter:
+        - "**/*"
+        - "!.cache/**"
+
+# ── Linux: AppImage ─────────────────────────────────────────────────────────────
+appImage:
+  artifactName: "${productName}-${version}.AppImage"
