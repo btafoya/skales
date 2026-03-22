@@ -23,6 +23,7 @@ If you find this useful, a ⭐ helps others discover it
 
 [![Version](https://img.shields.io/badge/version-7.2.0-1DB954?style=for-the-badge&labelColor=0D1117)](https://skales.app)
 [![License](https://img.shields.io/badge/license-BSL_1.1-1DB954?style=for-the-badge&labelColor=0D1117)](./LICENSE)
+
 [![Platform](https://img.shields.io/badge/Windows_+_macOS_+_Linux-1DB954?style=for-the-badge&labelColor=0D1117&logo=windows&logoColor=white)](https://skales.app)
 [![GitHub](https://img.shields.io/badge/GitHub-skalesapp%2Fskales-1DB954?style=for-the-badge&labelColor=0D1117&logo=github&logoColor=white)](https://github.com/skalesapp/skales)
 [![Signed](https://img.shields.io/badge/macOS-Code_Signed-1DB954?style=for-the-badge&labelColor=0D1117&logo=apple&logoColor=white)](https://skales.app)
